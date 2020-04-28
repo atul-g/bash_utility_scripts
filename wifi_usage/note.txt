@@ -1,0 +1,9 @@
+NOTE:
+This script, wifi_usage.sh assumes that it is run right after bootup. And that this script continues to run until the shutdown of OS. Make note that during a live OS session, if the script runs and say after sometime it is interrupted and again restarted, then current OS session's total received data packets uptil then gets added to currently connected wifi routers usage details.
+
+so, this is how it should work:  OS run:    [============================]
+				Script run: [============================]
+
+should NOT be like this: OS run:    [======================]
+			script run: [==========][==========] => gives bad reading.
+
