@@ -1,9 +1,13 @@
+#!/bin/bash
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+filepath="$HOME/usage" #since cron jobs have a current working directory usually set as home
 
 date_check() {
-	if [ -f usage ]
+	if [ -f $filepath ]
 	then 
 		cur_date=$(date +%s)
-		last_mod_date=$(date -r usage +%s)
+		last_mod_date=$(date -r $filepath +%s)
 		if [ $(date +%m) == 02 ] && [ $cycle_date -gt 28 ]
 		then
 			cycle_date=28
@@ -11,7 +15,7 @@ date_check() {
 		cyc_date=$(date -d "$(date +%Y)-$(date +%m)-$cycle_date" +%s)
 		if [[ $cyc_date -gt $last_mod_date ]] && [[ $cyc_date -lt $cur_date ]]
 		then
-			rm usage
+			rm $filepath
 		fi
 	fi
 }
@@ -26,16 +30,16 @@ wifi_record_update() {
 			availability="yes"
 			ssid=$(iwconfig wlp0s20f3 | grep ESSID | cut -d: -f2)
 			mac=$(iwconfig wlp0s20f3 | grep "Access Point" | tr -s ' ' | cut -d ' ' -f7)
-			if grep -Fq "$mac" usage
+			if grep -Fq "$mac" $filepath
 			then
-				used=$(grep "$mac" usage | cut -d ' ' -f3)
+				used=$(grep "$mac" $filepath | cut -d ' ' -f3)
 			else
-				echo "$mac $ssid 0" >> usage
+				echo "$mac $ssid 0" >> $filepath
 			fi
 			break
 		fi
 	done
-	sed -i "/off\/any/d" usage ###to delete garbage records which sometimes get collected with mac name set as off/any
+	sed -i "/off\/any/d" $filepath ###to delete garbage records which sometimes get collected with mac name set as off/any
 }
 
 
@@ -54,21 +58,21 @@ done
 
 
 ##### getting cycle date
-if [ -f usage ]
+if [ -f $filepath ]
 then
-	cycle_date=$(head -n 1 usage)
+	cycle_date=$(head -n 1 $filepath)
 else
 	cycle_date=1 #default date at the start of first ever run of this script
 fi
 
 
-##### deletes usage file if the cycle date is passed
+##### deletes $filepath file if the cycle date is passed
 date_check;
 
 
-if ! [[ -f usage ]]
+if ! [[ -f $filepath ]]
 then
-	echo $cycle_date > usage
+	echo $cycle_date > $filepath
 fi
 
 
@@ -81,7 +85,7 @@ do
 		prev=$cur
 		cur=$(cat /sys/class/net/$dev/statistics/rx_bytes)
 		add=$((cur-prev))
-		echo "$(awk -v ad=$add -v ma=$mac '{if ($1==ma) {$3=$3+ad}; print $0 }' usage)" > usage ### updating the used value
+		echo "$(awk -v ad=$add -v ma=$mac '{if ($1==ma) {$3=$3+ad}; print $0 }' $filepath)" > $filepath ### updating the used value
 		wifi_record_update
 	done
 done
