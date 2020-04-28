@@ -9,6 +9,7 @@ then
 	cycle_date=$(head -n 1 usage)
 else
 	echo -e "\n\tYou need to run the ./wifi_usage script before you can run this script to see wifi usage stats.\n"
+	exit 0
 fi
 
 #default date
