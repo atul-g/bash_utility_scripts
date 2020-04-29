@@ -2,20 +2,21 @@
 
 filepath="$HOME/usage"
 RED_COLOR="\033[0;31m" #to get red colored text after this variable
-BOLD=$(tput bold)
 NORMAL=$(tput sgr0)
 
-if [[ -f $filepath ]]
+if [[ -f "$filepath" ]]
 then
-	cycle_date=$(head -n 1 $filepath)
+	cycle_date=$(head -n 1 "$filepath")
 else
 	echo -e "\n\tYou need to run the ./wifi_filepath script before you can run this script to see wifi filepath stats.\n"
 	exit 0
 fi
 
 #default date
+
 cycle_date=$(head -n 1 $filepath)
 cyc_date=$cycle_date
+
 ######### TO GET THE ARGUMENTS
 while getopts 'hd:' flag; do
         case "$flag" in
@@ -34,24 +35,24 @@ while getopts 'hd:' flag; do
 done
 
 
-if [ $cyc_date -ge 1 ] && [ $cyc_date -le 30 ]
+if [ "$cyc_date" -ge 1 ] && [ "$cyc_date" -le 30 ]
 then
-	cycle_date=$cyc_date
+	cycle_date="$cyc_date"
 else
 	echo Invalid Date entered. Cycle Date remains unchanged.
 fi
 
-sed -i "1s/.*/$cycle_date/" $filepath
+sed -i "1s/.*/$cycle_date/" "$filepath"
 
 while read -r line
 do
-	if [[ $line =~ ^[[:digit:]]+$ ]]; then # to skip the first line
+	if [[ "$line" =~ ^[[:digit:]]+$ ]]; then # to skip the first line
 		continue
 	fi
-	ssid=$(echo $line | cut -d " " -f 2)
-	used=$(echo $line | cut -d " " -f 3)
+	ssid=$(echo "$line" | cut -d " " -f 2)
+	used=$(echo "$line" | cut -d " " -f 3)
 	used_mb=$(echo "scale=4; ($used/1024)/1024" | bc -l )
 	echo -e "\t\nWIFI data used by ${RED_COLOR}$ssid${NORMAL} for the monthly cycle is: $used_mb MiB\n"
-done < $filepath;
+done < "$filepath";
 
 exit 0

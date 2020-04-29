@@ -17,7 +17,11 @@ A script that records all the WIFI usage among different connected Wifi hotspots
 
 - It is required to make the `wifi_usage.sh` file to run right after bootup. For this we will create a cron job using commands:
 
-	`cron -e /path/to/wifi_usage.sh`
+	`crontab -e`
+
+	and then inside the crontab file, write down this:
+
+	`@reboot /path/to/wifi_usage.sh`
 
 - After setting this, you can run the `read_usage.sh` script to see the wifi usage details.
 - To change the cycle date (default is 1): `./read_usage.sh -d <day of month>`. Make sure the date value entered is between 1 and 30.
