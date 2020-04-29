@@ -41,7 +41,6 @@ wifi_record_update() {
 			break
 		fi
 	done
-	#sed -i "/off\/any/d" "$filepath" ###to delete garbage records which sometimes get collected with mac name set as off/any
 }
 
 
@@ -86,7 +85,9 @@ do
 		prev=$cur
 		cur=$(cat /sys/class/net/"$dev"/statistics/rx_bytes)
 		add=$((cur-prev))
-		echo "$(awk -v ad="$add" -v ma="$mac" '{if ($1==ma) {$3=$3+ad}; print $0 }' "$filepath")" > "$filepath" ### updating the used value
+		if  [ "$add" != 0 ]; then
+			echo "$(awk -v ad="$add" -v ma="$mac" '{if ($1==ma) {$3=$3+ad}; print $0 }' "$filepath")" > "$filepath" ### updating the used value
+		fi
 		wifi_record_update
 	done
 done
