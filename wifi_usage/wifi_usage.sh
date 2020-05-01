@@ -28,7 +28,7 @@ wifi_record_update() {
 		iw_rep=$(iwconfig "$dev")
 		ssid=$(echo "$iw_rep" | grep "ESSID" | cut -d: -f2)
 		mac=$(echo "$iw_rep" | grep "Access Point" | tr -s ' ' | cut -d ' ' -f7)
-		if [ $ssid != off/any ]
+		if [ "$ssid" != "off/any  " ]         #there are 2 spaces after off/any.
 		then
 			availability="yes"
 			if grep -Fq "$mac" "$filepath"
