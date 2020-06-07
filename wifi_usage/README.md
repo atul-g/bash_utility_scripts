@@ -1,4 +1,4 @@
-# WIFI USAGE COUNTER
+# Wifi Usage Counter
 
 A script that records all the WIFI usage among different connected Wifi hotspots/routers during every live OS session. The usage is recorded in a monthly basis.
 
