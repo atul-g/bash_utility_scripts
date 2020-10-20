@@ -5,7 +5,13 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # we wait until plasma has created it's proc, this will be used later on
 # to get the DBUS_SESSION_BUS_ADDRESS env variable mainly
+
+# write down the output of `echo $DESKTOP_SESSION` from a terminal in here.
+# This value can be different based on different DE.
+DESKTOP_SESSION=plasma
+
 while [ "$(pgrep $DESKTOP_SESSION -n -U $UID)" = "" ]; do
+    a="$(pgrep $DESKTOP_SESSION -n -U $UID)"
     sleep 5
 done
 

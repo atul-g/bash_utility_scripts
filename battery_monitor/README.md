@@ -14,7 +14,8 @@ Hence the need for a script which automatically notifies you when your battery h
 
 ### Usage
 1. Make sure you have the package `libnotify-bin` installed, as the script depends on the `notify-send` command to send notifications.
-2. Set a cronjob to start this script at bootup using:
+2. In the script, change the value of the variable `DESKTOP_SESSION`. This can depend on the desktop environment of your OS. To find out the proper value, enter `echo $DESKTOP_SESSION` in your terminal and write the output as the value for the same variable in the script.
+3. Set a cronjob to start this script at bootup using:
     * `crontab -e`
     * `@reboot /path/to/script.sh`
-3. You can also use your OS's startup settings or application to set this script to run at bootup.
+4. You can also use your OS's startup settings or application to set this script to run at bootup.
