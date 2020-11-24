@@ -21,20 +21,33 @@ export $(xargs -0 -a "/proc/$(pgrep $DESKTOP_SESSION -n -U $UID)/environ")
 
 ### crontab specific end
 
-notif_displayed=false
+notif_displayed_60=false
+notif_displayed_40=false
 
-msg=$(echo "Battery charge is over 60%. Please turn the AC power off.")
-icon="/usr/share/icons/breeze-dark/devices/64/battery.svg"
+msg_60=$(echo "Battery charge is over 60%. Please turn the AC power off.")
+msg_40=$(echo "Battery charge is less than 40%. Please turn on the AC power.")
+
+icon_60="/usr/share/icons/breeze-dark/devices/64/battery.svg"
+icon_40="/home/atulu/.local/share/icons/la-capitaine-icon-theme/status/scalable/battery-caution.svg"
+
 
 while true; do
-    if [ "$(cat /sys/class/power_supply/BAT1/capacity)" -ge 60 -a "$(cat /sys/class/power_supply/BAT1/status)" = "Charging"  -a "$notif_displayed" = false ]; then
-        notify-send "$msg" -u critical -i "$icon"
-        notif_displayed=true
+    if [ "$(cat /sys/class/power_supply/BAT1/capacity)" -ge 60 -a "$(cat /sys/class/power_supply/BAT1/status)" = "Charging"  -a "$notif_displayed_60" = false ]; then
+        notify-send "$msg_60" -u critical -i "$icon_60"
+        notif_displayed_60=true
     fi
 
     if [ "$(cat /sys/class/power_supply/BAT1/capacity)" -lt 60 ]; then
-        notif_displayed=false
+        notif_displayed_60=false
     fi
 
+    if [ "$(cat /sys/class/power_supply/BAT1/capacity)" -le 40 -a "$(cat /sys/class/power_supply/BAT1/status)" = "Discharging"  -a "$notif_displayed_40" = false ]; then
+        notify-send "$msg_40" -u critical -i "$icon_40"
+        notif_displayed_40=true
+    fi
+
+    if [ "$(cat /sys/class/power_supply/BAT1/capacity)" -gt 40 ]; then
+        notif_displayed_40=false
+    fi
     sleep 60
 done

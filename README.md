@@ -8,4 +8,4 @@ A repo for simple utility bash scripts that I use freqeuntly.
 3. `wifi_usage`: WIFI usage counter over all connected WIFIs for a month. Shows the Usage details using another script in MiBs.
 4. `video_time_calc`: Script that sums up the time of all the videos inside the directory which is passed as argument.
 5. `kernel_compilation`: Script to compile and install Linux kernel from source repository in Arch based distros.
-6. `battery_monitor`: A script that checks the battery status and sends notification to user if the charge capacity is over 60% to prevent improper charge cycles and help reduce battery capacity detoriation.
+6. `battery_monitor`: A script that checks the battery status and sends notification to user if the charge capacity is over 60% or less than 40% to prevent improper charge cycles and help reduce battery capacity detoriation.

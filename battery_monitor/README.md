@@ -1,6 +1,6 @@
 # Battery Monitor
 
-Battery Monitor is a simple script to send notifications to the user when their laptop has charged over 60%.
+Battery Monitor is a simple script to send notifications to the user when their laptop has charged over 60% or if the battery charge is less than 40%.
 
 ### Problem Context
 Almost all Laptop Batteries are Lithium-ion based. The capacity of these batteries can detoriate over time - the main reasons being improper charge cycles. Due to such charge cycles, the battery's total capacity can reduce around 10% per year. (For more info on this click [here](https://superuser.com/questions/502328/how-does-limiting-a-laptop-batterys-full-charge-to-less-than-100-extend-its-ba).  
@@ -9,7 +9,7 @@ Basically, preventing laptop battery from charging close to it's highest level o
 
 Unfortunately, there is no automatic way of setting this charge cycle in your laptop unless it's a Lenovo Thinkpad or certain Asus laptops where the Linux Kernel itself allows you to [set charge thresholds](https://www.reddit.com/r/linuxhardware/comments/g8kpee/psa_kernel_54_added_the_ability_to_set_a_battery/). 
 
-Hence the need for a script which automatically notifies you when your battery has charged over 60%, so that you will be reminded to switch off the AC plug manually (doing it manually seems to be the only possible way for now :D ). 
+Hence the need for a script which automatically notifies you when your battery has charged over 60% or fallen less than 40%, so that you will be reminded to switch off or on the AC plug manually (doing it manually seems to be the only possible way for now :D ). 
 
 
 ### Usage
@@ -19,3 +19,8 @@ Hence the need for a script which automatically notifies you when your battery h
     * `crontab -e`
     * `@reboot /path/to/script.sh`
 4. You can also use your OS's startup settings or application to set this script to run at bootup.
+
+### Note
+1. Make sure to give the right value of the variable `DESKTOP_SESSION` which is based on the Desktop Environment your distro is running on. It's currently set to `plasma` as that's the DE that I'm using.
+
+2. Also set the appropriate paths to the icons you wish to display in the notification that the script sends in the `icon_60` and `icon_40` variables.
