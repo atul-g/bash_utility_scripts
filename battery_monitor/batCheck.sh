@@ -33,7 +33,7 @@ icon_40=battery-caution
 
 while true; do
     if [ "$(cat /sys/class/power_supply/BAT1/capacity)" -ge 60 -a "$(cat /sys/class/power_supply/BAT1/status)" = "Charging"  -a "$notif_displayed_60" = false ]; then
-        notify-send "$msg_60" -u critical -i "$icon_60"
+        notify-send "Battery Monitor" "$msg_60" -u critical -i "$icon_60"
         notif_displayed_60=true
     fi
 
@@ -42,7 +42,7 @@ while true; do
     fi
 
     if [ "$(cat /sys/class/power_supply/BAT1/capacity)" -le 40 -a "$(cat /sys/class/power_supply/BAT1/status)" = "Discharging"  -a "$notif_displayed_40" = false ]; then
-        notify-send "$msg_40" -u critical -i "$icon_40"
+        notify-send "Battery Monitor" "$msg_40" -u critical -i "$icon_40"
         notif_displayed_40=true
     fi
 
