@@ -23,4 +23,4 @@ Hence the need for a script which automatically notifies you when your battery h
 ### Note
 1. Make sure to give the right value of the variable `DESKTOP_SESSION` which is based on the Desktop Environment your distro is running on. It's currently set to `plasma` as that's the DE that I'm using.
 
-2. Also set the appropriate paths to the icons you wish to display in the notification that the script sends in the `icon_60` and `icon_40` variables.
+2. Also set the appropriate name of the icons you wish to display in the notification that the script sends in the `icon_60` and `icon_40` variables. `notify-send` by default looks into your operating-system's icons directory automatically with just the name of the icon provided. Example, it will look for all icons inside the `usr/share/icons` directory.

@@ -27,8 +27,8 @@ notif_displayed_40=false
 msg_60=$(echo "Battery charge is over 60%. Please turn the AC power off.")
 msg_40=$(echo "Battery charge is less than 40%. Please turn on the AC power.")
 
-icon_60="/usr/share/icons/breeze-dark/devices/64/battery.svg"
-icon_40="/home/atulu/.local/share/icons/la-capitaine-icon-theme/status/scalable/battery-caution.svg"
+icon_60=battery
+icon_40=battery-caution
 
 
 while true; do
