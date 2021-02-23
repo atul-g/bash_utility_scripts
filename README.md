@@ -9,3 +9,4 @@ A repo for simple utility bash scripts that I use freqeuntly.
 4. `video_time_calc`: Script that sums up the time of all the videos inside the directory which is passed as argument.
 5. `kernel_compilation`: Script to compile and install Linux kernel from source repository in Arch based distros.
 6. `battery_monitor`: A script that checks the battery status and sends notification to user if the charge capacity is over 60% or less than 40% to prevent improper charge cycles and help reduce battery capacity detoriation.
+7. `zsh-min-install`: A script that automates the installation of `Zsh` and `Oh-My-Zsh` along with `Pure` theme and `zsh-autosuggestions` plugins to help you get started with using `Zsh` immediately.
