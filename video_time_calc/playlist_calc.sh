@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/sh
 
 wd="$1"
 if [ ! -d "$wd" ]; then

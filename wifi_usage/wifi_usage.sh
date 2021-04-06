@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/sh
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 filepath="$HOME/usage" #since cron jobs have a current working directory usually set as home

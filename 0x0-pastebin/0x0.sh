@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/sh
 
 # Function to use 0x0.st pastebin service easily
 # Credits to 0x0.st for providing such a platform while also respecting

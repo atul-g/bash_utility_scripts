@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/sh
 
 filepath="$HOME/usage"
 RED_COLOR="\033[0;31m" #to get red colored text after this variable

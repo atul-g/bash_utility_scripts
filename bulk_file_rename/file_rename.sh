@@ -1,3 +1,5 @@
+#!/usr/bin/sh
+
 target_dir=${1:?"ERROR: ENTER A DIRECTORY PATH"}
 
 for d in $target_dir; do

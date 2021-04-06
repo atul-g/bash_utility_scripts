@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/sh
 
 # default number of cores that would be used for the compilation process
 # Change the value below if you don't want to compile kernel in all available cores of the system

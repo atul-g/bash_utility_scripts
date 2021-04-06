@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/sh
 
 # exit when any command fails
 set -e
