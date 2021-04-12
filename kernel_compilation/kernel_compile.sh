@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
 
 # default number of cores that would be used for the compilation process
 # Change the value below if you don't want to compile kernel in all available cores of the system
@@ -31,7 +31,7 @@ make mrproper
 yes '' | make oldconfig
 if [ "$?" != "0" ];
 then 
-    echo -e "\nError while making .config file. Aborting compilation...";
+    echo "\nError while making .config file. Aborting compilation...";
     exit 1
 fi
 
@@ -47,7 +47,7 @@ ls /lib/modules > /tmp/kernel_temp_file
 make -j ${CORES}
 if [ "$?" != "0" ];
 then 
-    echo -e "\nAn error has occured during compilation. Last executed command was: make -j $(CORES)";
+    echo "\nAn error has occured during compilation. Last executed command was: make -j $(CORES)";
     exit 1
 fi
 
@@ -63,7 +63,7 @@ cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-{kernel_version}
 
 if [ "$?" != "0" ];
 then 
-    echo -e "\nError while copying bzimage to /boot. Check where 'make' stores the kernel and change the 'cp' command in the script accordingly. Aborting compilation...";
+    echo "\nError while copying bzimage to /boot. Check where 'make' stores the kernel and change the 'cp' command in the script accordingly. Aborting compilation...";
     exit 1
 fi
 
@@ -76,7 +76,7 @@ mkinitcpio -k ${kernel_version} -g /boot/initramfs-${kernel_modules_dir}.img
 
 if [ "$?" != "0" ];
 then 
-    echo -e "\nError occured while generating initramfs, make sure that the argument passed to -k parameter is the same name as the folder of the installed kernel in '/lib/modules/...'. Aborting process...";
+    echo "\nError occured while generating initramfs, make sure that the argument passed to -k parameter is the same name as the folder of the installed kernel in '/lib/modules/...'. Aborting process...";
     exit 1
 fi
 

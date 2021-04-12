@@ -66,4 +66,4 @@ EOT
 # since we are still in bash
 zsh -c "source ~/.zshrc"
 
-echo -e "\nYou can now close the session and open again, or try restarting your device (in case of Fedora)\n"
+printf "\nYou can now close the session and open again, or try restarting your device (in case of Fedora)\n"

@@ -8,12 +8,12 @@ date_check() {
 	then 
 		cur_date=$(date +%s)
 		last_mod_date=$(date -r "$filepath" +%s)
-		if [ "$(date +%m)" == 02 ] && [ "$cycle_date" -gt 28 ]
+		if [ "$(date +%m)" = "02" ] && [ "$cycle_date" -gt 28 ]
 		then
 			cycle_date=28
 		fi
 		cyc_date=$(date -d "$(date +%Y)-$(date +%m)-$cycle_date" +%s)
-		if [[ "$cyc_date" -gt "$last_mod_date" ]] && [[ "$cyc_date" -lt "$cur_date" ]]
+		if [ "$cyc_date" -gt "$last_mod_date" ] && [ "$cyc_date" -lt "$cur_date" ]
 		then
 			rm "$filepath"
 		fi
@@ -53,7 +53,7 @@ do
 	if [ -d "$dev/wireless/" ]
 	then
 		w_dev=${dev##*/} # removes everything until last / to get only interface name
-		net_interface+=("$w_dev")
+		net_interface=$((net_interface+w_dev))
 	fi
 done
 
@@ -70,7 +70,7 @@ fi
 ##### deletes $filepath file if the cycle date is passed
 date_check;
 
-if ! [[ -f "$filepath" ]]
+if ! [ -f "$filepath" ]
 then
 	echo "$cycle_date" > "$filepath"
 fi

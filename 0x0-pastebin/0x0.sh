@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
 
 # Function to use 0x0.st pastebin service easily
 # Credits to 0x0.st for providing such a platform while also respecting
@@ -18,24 +18,24 @@
 	if [ "$1" = "c" ]
 	then
 		xclip -o > /tmp/0x0-pastebin.temp
-		echo -e "making paste from clipboard...\n"
+		echo "making paste from clipboard...\n"
 		if [ "$2" = "s" ]
 		then
 			echo "######## Contents of paste #########"
 			cat /tmp/0x0-pastebin.temp
-			echo -e "\n########### End of paste ###########\n"
+			echo "\n########### End of paste ###########\n"
 		fi
 		curl -F 'file=@/tmp/0x0-pastebin.temp' https://0x0.st
 
 	elif [ "$1" = "f" ]
 	then
-		echo -e "making paste from file...\n"
+		echo "making paste from file...\n"
 		# if show argument was also passed
 		if [ "$2" = "s" ]
 		then
 			echo "######## Contents of paste #########"
 			cat "$3"
-			echo -e "\n########### End of paste ###########\n"
+			echo "\n########### End of paste ###########\n"
 			curl -F "file=@"${3}"" https://0x0.st
 
 		elif [ "$2" != "" ]

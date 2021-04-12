@@ -10,12 +10,12 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # This value can be different based on different DE.
 DESKTOP_SESSION=plasma
 
-while [ "$(pgrep $DESKTOP_SESSION -n -U $UID)" = "" ]; do
-    a="$(pgrep $DESKTOP_SESSION -n -U $UID)"
+while [ "$(pgrep $DESKTOP_SESSION -n -U $(id -ru))" = "" ]; do
+    a="$(pgrep $DESKTOP_SESSION -n -U $(id -ru))"
     sleep 5
 done
 
-export $(xargs -0 -a "/proc/$(pgrep $DESKTOP_SESSION -n -U $UID)/environ")
+export $(xargs -0 -a "/proc/$(pgrep $DESKTOP_SESSION -n -U $(id -ru))/environ")
 # the above line is used to import all the env variables for the desktop
 # session which notify-send needs to know as it is a GUI tool
 
