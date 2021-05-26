@@ -2,16 +2,25 @@
 
 set -e
 
+# comment out the date which you don't want to see
+today=$(date +%d-%m-%Y)
 tomm=$(date -d tomorrow +%d-%m-%Y)
+dayafter=$(date -d "+2 days" +%d-%m-%Y)
+
 AGE_18="true"
 AGE_45="false"
 FIRST_DOSE="true"
 SECOND_DOSE="false"
 
 slot_check() {
+	day="$2"
+	echo "$day"
 	AGE="$1"
 	first_flag="false"
 	second_flag="false"
+
+	curl --user-agent "Mozilla/5.0" "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=571&date=${day}"  >  /tmp/cowin-resp
+	list=$(cat /tmp/cowin-resp | jq '.sessions[] | "\(.min_age_limit) \(.available_capacity_dose1) \(.available_capacity_dose2)" ' )
 
 	# adding a " in the grep, to search '"18', this makes sure
 	# that it grep 18/45 of first field only which is for age
@@ -25,7 +34,7 @@ slot_check() {
 			num=$(echo "${line%?}" | awk '{print $2}')
 			if [ $num -gt 0 ]
 			then
-				echo "Age ${AGE}: 1st dose available" >> /tmp/cowin-notif-msg
+				echo "Date: ${day} - Age ${AGE}: 1st dose available" >> /tmp/cowin-${AGE}-notif-msg
 				first_flag="true"
 			fi
 		fi
@@ -35,7 +44,7 @@ slot_check() {
 			num=$(echo "${line%?}" | awk '{print $3}')
 			if [ $num -gt 0 ]
 			then
-				echo "Age ${AGE}: 2nd dose available" >> /tmp/cowin-notif-msg
+				echo "Day: ${day} - Age ${AGE}: 2nd dose available" >> /tmp/cowin-${AGE}-notif-msg
 				second_flag="true"
 			fi
 		fi
@@ -44,24 +53,58 @@ slot_check() {
 
 # MAIN 
 
-rm -f /tmp/cowin-notif-msg
+rm -f /tmp/cowin-18-notif-msg
+rm -f /tmp/cowin-45-notif-msg
 
 while true
 do
 
-	curl --user-agent "Mozilla/5.0" "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=571&date=${tomm}"  >  /tmp/cowin-resp
-	list=$(cat /tmp/cowin-resp | jq '.sessions[] | "\(.min_age_limit) \(.available_capacity_dose1) \(.available_capacity_dose2)" ' )
-
 	if [ "$AGE_18" = "true" ]
 	then
-		slot_check "18"
+		if [ -n "$today" ]
+		then
+			slot_check "18" "$today"
+		fi
+
+		if [ -n "$tomm" ]
+		then
+			slot_check "18" "$tomm"
+		fi
+
+		if [ -n "$dayafter" ]
+		then
+			slot_check "18" "$dayafter"
+		fi
+
+		if [ -f /tmp/cowin-18-notif-msg ]
+		then
+			notify-send -u critical "$(cat /tmp/cowin-18-notif-msg)" 
+		fi
 	fi
+
 
 	if [ "$AGE_45" = "true" ]
 	then
-		slot_check "45"
+		if [ -n "$today" ]
+		then
+			slot_check "45" "$today"
+		fi
+
+		if [ -n "$tomm" ]
+		then
+			slot_check "45" "$tomm"
+		fi
+
+		if [ -n "$dayafter" ]
+		then
+			slot_check "45" "$dayafter"
+		fi
+
+		if [ -f /tmp/cowin-45-notif-msg ]
+		then
+			notify-send -u critical "$(cat /tmp/cowin-45-notif-msg)" 
+		fi
 	fi
 
-	notify-send -u critical "$(cat /tmp/cowin-notif-msg)" 
 	sleep 1800
 done
