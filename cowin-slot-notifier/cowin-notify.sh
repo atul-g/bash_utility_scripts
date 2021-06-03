@@ -19,6 +19,7 @@ slot_check() {
 	first_flag="false"
 	second_flag="false"
 
+
 	curl --user-agent "Mozilla/5.0" "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=571&date=${day}"  >  /tmp/cowin-resp
 	list=$(cat /tmp/cowin-resp | jq '.sessions[] | "\(.min_age_limit) \(.available_capacity_dose1) \(.available_capacity_dose2)" ' )
 
@@ -34,7 +35,7 @@ slot_check() {
 			num=$(echo "${line%?}" | awk '{print $2}')
 			if [ $num -gt 0 ]
 			then
-				echo "Date: ${day} - Age ${AGE}: 1st dose available" >> /tmp/cowin-${AGE}-notif-msg
+				echo "Date: ${day} - Age ${AGE}: 1st dose available" >> /tmp/cowin-notif-${AGE}-msg
 				first_flag="true"
 			fi
 		fi
@@ -44,7 +45,7 @@ slot_check() {
 			num=$(echo "${line%?}" | awk '{print $3}')
 			if [ $num -gt 0 ]
 			then
-				echo "Day: ${day} - Age ${AGE}: 2nd dose available" >> /tmp/cowin-${AGE}-notif-msg
+				echo "Day: ${day} - Age ${AGE}: 2nd dose available" >> /tmp/cowin-notif-${AGE}-msg
 				second_flag="true"
 			fi
 		fi
@@ -53,11 +54,10 @@ slot_check() {
 
 # MAIN 
 
-rm -f /tmp/cowin-18-notif-msg
-rm -f /tmp/cowin-45-notif-msg
-
 while true
 do
+
+	rm -f /tmp/cowin-notif-*
 
 	if [ "$AGE_18" = "true" ]
 	then
@@ -76,9 +76,9 @@ do
 			slot_check "18" "$dayafter"
 		fi
 
-		if [ -f /tmp/cowin-18-notif-msg ]
+		if [ -f /tmp/cowin-notif-18-msg ]
 		then
-			notify-send -u critical "$(cat /tmp/cowin-18-notif-msg)" 
+			notify-send -u critical "$(cat /tmp/cowin-notif-18-msg)" 
 		fi
 	fi
 
@@ -100,9 +100,9 @@ do
 			slot_check "45" "$dayafter"
 		fi
 
-		if [ -f /tmp/cowin-45-notif-msg ]
+		if [ -f /tmp/cowin-notif-45-msg ]
 		then
-			notify-send -u critical "$(cat /tmp/cowin-45-notif-msg)" 
+			notify-send -u critical "$(cat /tmp/cowin-notif-45-msg)" 
 		fi
 	fi
 
