@@ -11,3 +11,4 @@ A repo for simple utility bash scripts that I use freqeuntly.
 6. `battery_monitor`: A script that checks the battery status and sends notification to user if the charge capacity is over 60% or less than 40% to prevent improper charge cycles and help reduce battery capacity detoriation.
 7. `zsh-min-install`: A script that automates the installation of `Zsh` and `Oh-My-Zsh` along with `Pure` theme and `zsh-autosuggestions` plugins to help you get started with using `Zsh` immediately.
 8. `0x0`: A script to make use of 0x0.st paste services. This script helps one to create paste-links easily right from the terminal.
+9. `cowin-notify.sh`: A script which sends a alert notification whenever vaccination slots are available to book.
